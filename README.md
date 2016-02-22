@@ -17,7 +17,7 @@ mvn -v
 
 Check out the JPMML-Evaluator-Bootstrap project and enter its directory:
 ```
-git checkout https://github.com/jpmml/jpmml-evaluator-bootstrap.git
+git clone https://github.com/jpmml/jpmml-evaluator-bootstrap.git
 cd jpmml-evaluator-bootstrap
 ```
 
