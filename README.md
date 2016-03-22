@@ -49,7 +49,7 @@ java -cp target/bootstrap-executable-1.0-SNAPSHOT.jar org.jpmml.evaluator.bootst
 
 # License #
 
-JPMML-Evaluator-Bootstrap is dual-licensed under the [GNU Affero General Public License (AGPL) version 3.0] (http://www.gnu.org/licenses/agpl-3.0.html) and a commercial license.
+JPMML-Evaluator-Bootstrap is licensed under the [GNU Affero General Public License (AGPL) version 3.0] (http://www.gnu.org/licenses/agpl-3.0.html). Other licenses are available on request.
 
 # Additional information #
 
