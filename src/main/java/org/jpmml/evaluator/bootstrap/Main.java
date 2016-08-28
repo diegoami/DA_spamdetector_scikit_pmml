@@ -20,15 +20,17 @@ package org.jpmml.evaluator.bootstrap;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
-
-import javax.xml.transform.Source;
+import java.util.List;
 
 import org.dmg.pmml.PMML;
 import org.jpmml.evaluator.Evaluator;
+import org.jpmml.evaluator.HasGroupFields;
+import org.jpmml.evaluator.HasOrderFields;
+import org.jpmml.evaluator.InputField;
 import org.jpmml.evaluator.ModelEvaluatorFactory;
-import org.jpmml.model.ImportFilter;
-import org.jpmml.model.JAXBUtil;
-import org.xml.sax.InputSource;
+import org.jpmml.evaluator.OutputField;
+import org.jpmml.evaluator.TargetField;
+import org.jpmml.model.PMMLUtil;
 
 public class Main {
 
@@ -37,23 +39,51 @@ public class Main {
 		PMML pmml;
 
 		try(InputStream is = new FileInputStream(args[0])){
-			Source source = ImportFilter.apply(new InputSource(is));
-
-			pmml = JAXBUtil.unmarshalPMML(source);
+			pmml = PMMLUtil.unmarshal(is);
 		}
 
 		ModelEvaluatorFactory modelEvaluatorFactory = ModelEvaluatorFactory.newInstance();
 
-		Evaluator evaluator = (Evaluator)modelEvaluatorFactory.newModelManager(pmml);
+		Evaluator evaluator = (Evaluator)modelEvaluatorFactory.newModelEvaluator(pmml);
 
+		System.out.println("Summary: " + evaluator.getSummary());
 		System.out.println("Mining function: " + evaluator.getMiningFunction());
 
-		System.out.println("Input schema:");
-		System.out.println("\t" + "Active fields: " + evaluator.getActiveFields());
-		System.out.println("\t" + "Group fields: " + evaluator.getGroupFields());
+		System.out.println("Input fields:");
 
-		System.out.println("Output schema:");
-		System.out.println("\t" + "Target fields: " + evaluator.getTargetFields());
-		System.out.println("\t" + "Output fields: " + evaluator.getOutputFields());
+		List<InputField> activeFields = evaluator.getActiveFields();
+		for(InputField activeField : activeFields){
+			System.out.println("\t" + activeField);
+		}
+
+		if(evaluator instanceof HasGroupFields){
+			HasGroupFields hasGroupFields = (HasGroupFields)evaluator;
+
+			List<InputField> groupFields = hasGroupFields.getGroupFields();
+			for(InputField groupField : groupFields){
+				System.out.println("\t" + groupField);
+			}
+		} // End if
+
+		if(evaluator instanceof HasOrderFields){
+			HasOrderFields hasOrderFields = (HasOrderFields)evaluator;
+
+			List<InputField> orderFields = hasOrderFields.getOrderFields();
+			for(InputField orderField : orderFields){
+				System.out.println("\t" + orderField);
+			}
+		}
+
+		System.out.println("Result fields:");
+
+		List<TargetField> targetFields = evaluator.getTargetFields();
+		for(TargetField targetField : targetFields){
+			System.out.println("\t" + targetField);
+		}
+
+		List<OutputField> outputFields = evaluator.getOutputFields();
+		for(OutputField outputField : outputFields){
+			System.out.println("\t" + outputField);
+		}
 	}
 }
