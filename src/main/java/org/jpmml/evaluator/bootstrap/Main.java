@@ -51,9 +51,9 @@ public class Main {
 
 		System.out.println("Input fields:");
 
-		List<InputField> activeFields = evaluator.getActiveFields();
-		for(InputField activeField : activeFields){
-			System.out.println("\t" + activeField);
+		List<InputField> inputFields = evaluator.getInputFields();
+		for(InputField inputField : inputFields){
+			System.out.println("\t" + inputField);
 		}
 
 		if(evaluator instanceof HasGroupFields){
