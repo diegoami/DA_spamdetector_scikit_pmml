@@ -1,56 +1,38 @@
-JPMML-Evaluator-Bootstrap
+SPAM DETECTOR using PMML
 =========================
 
-The simplest way to get started with a [JPMML-Evaluator] (https://github.com/jpmml/jpmml-evaluator) powered software project.
+This project uses the PMML Model generated created in https://github.com/diegoami/SMS-Message-Spam-Detector and verifies whether the result are the same
 
-# Prerequisites #
 
-* Java 1.7 or newer.
-* [Apache Maven] (https://maven.apache.org/) 3.2 or newer.
+## SET UP
 
-# Installation and Usage #
+Make sure you have Java 8 or higher installed and Maven
 
-Verify that all the requirements are met:
+## COMPILE
+
+Execute `mvn clean compile package`
+
+## RUN locally
+
+To verify the model, execute the following
+
 ```
-mvn -v
-```
-
-Check out the JPMML-Evaluator-Bootstrap project and enter its directory:
-```
-git clone https://github.com/jpmml/jpmml-evaluator-bootstrap.git
-cd jpmml-evaluator-bootstrap
-```
-
-Initialize [Eclipse IDE] (https://eclipse.org/ide/) support files `.project` and `.classpath`:
-```
-mvn eclipse:eclipse
+java -cp target/bootstrap-executable-1.0-SNAPSHOT.jar org.jpmml.evaluator.bootstrap.Main spam_model.pmml spam_out.csv
 ```
 
-Launch the Eclipse IDE, and open the project import wizard via `File` > `Import...` > `General / Existing Projects into Workspace`. In the project wizard window, activate the radio button `Select root directory` and specify the location of the JPMML-Evaluator-Bootstrap directory. Click `Finish` to close the project wizard window.
+The expected result is the following - same as in the original model created in Python in the repo https://github.com/diegoami/SMS-Message-Spam-Detector
 
-The Eclipse IDE will show the imported JPMML-Evaluator-Bootstrap project in the package explorer view as `jpmml-evaluator-bootstrap`. The project consists of a single Java source code file `org/jpmml/evaluator/bootstrap/Main.java` (located under Apache Maven's standard source directory `src/main/java`).
-
-Build the project:
 ```
-mvn clean package
+Accuracy : 0.9937185929648241
+Confidence Matrix: (4822, 32, 3, 715)
 ```
 
-The build produces an executable uber-JAR file `bootstrap-executable-1.0-SNAPSHOT.jar` (located under Apache Maven's standard target directory `target`).
 
-Display the list of transitive dependency JAR files that were included into this uber-JAR file:
+## EXECUTE IN DOCKER
+
+The executable jar is already available in the root directory, therefore it can be used to create a docker image.
+
 ```
-mvn dependency:tree
+docker build -t spam_detector_pmml . 
+docker run spam_detector_pmml
 ```
-
-Execute the example Java command-line application:
-```
-java -cp target/bootstrap-executable-1.0-SNAPSHOT.jar org.jpmml.evaluator.bootstrap.Main <path to PMML file>
-```
-
-# License #
-
-JPMML-Evaluator-Bootstrap is licensed under the [GNU Affero General Public License (AGPL) version 3.0] (http://www.gnu.org/licenses/agpl-3.0.html). Other licenses are available on request.
-
-# Additional information #
-
-Please contact [info@openscoring.io] (mailto:info@openscoring.io)

@@ -177,6 +177,7 @@ public class Main {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
 		double accurate = 0;
 		double total = 0;
+		int tp = 0, tn = 0, fp = 0, fn = 0;
 		reader.readLine();
 		while(true) {
 			String line = reader.readLine();
@@ -186,7 +187,7 @@ public class Main {
 			String message = Main.stripQuotes(line.substring(0, line.length() - 2), '"');
 
 			String labelString = line.substring(line.length() - 1, line.length());
-			System.out.println(message+ ":"+ labelString);
+			//System.out.println(message+ ":"+ labelString);
 			try {
 				int label = Integer.parseInt(labelString );
 
@@ -194,20 +195,34 @@ public class Main {
 				evalMap.put(FieldName.create("x1"), message);
 				Map<FieldName, ?> resultMap = evaluator.evaluate(evalMap);
 				//System.out.println(message+ ":"+ label);
-				System.out.println(resultMap.keySet());
+
 				Object o = resultMap.get(FieldName.create("probability(1)"));
 				Double d = (Double)o;
-				System.out.println(d);
+				//System.out.println(d);
 				int isSpam = d > 0.5 ? 1 : 0;
-				System.out.println("Prediction: "+isSpam);
+				//System.out.println("Prediction: "+isSpam);
 				if (isSpam == label) {
 					accurate += 1;
 				}
+				if (isSpam == 1 && label == 1) {
+					tp += 1;
+				} else if (isSpam == 1 && label == 0) {
+					fp += 1;
+				} else if (isSpam == 0 && label == 1) {
+					fn += 1;
+				} else if (isSpam == 0 && label == 0) {
+					tn += 1;
+				}
 				total += 1;
-				System.out.println("Accuracy so far: "+(accurate/total));
+				if (total % 100 == 0) {
+					System.out.format("Processed %d rows\n", (int)total);
+				}
+				//System.out.println("Accuracy so far: "+(accurate/total));
+				//System.out.format("Confidence Matrix: (%d, %d, %d, %d)\n", tn, fn, fp, tp );
+
 			} catch (NumberFormatException nfe) {
 
-				nfe.printStackTrace();
+				System.out.format("Skipping row %d : %s\n", (int)total, nfe.getMessage());
 			}
 
 
@@ -215,6 +230,7 @@ public class Main {
 		}
 
 		System.out.println("Accuracy : "+(accurate/total));
+		System.out.format("Confidence Matrix: (%d, %d, %d, %d)\n", tn, fn, fp, tp );
 
 
 	}
