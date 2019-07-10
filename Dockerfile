@@ -1,8 +1,7 @@
 FROM oracle/openjdk:8
 WORKDIR /opt
-
+RUN mkdir /data
 ADD bootstrap-executable-1.0-SNAPSHOT.jar .
-ADD spam_out.csv .
-ADD spam_model.pmml .
-
-CMD [ "java", "-cp", "bootstrap-executable-1.0-SNAPSHOT.jar", "org.jpmml.evaluator.bootstrap.Main", "spam_model.pmml", "spam_out.csv" ]
+ADD data/spam_model.pmml data/
+ADD data/spam_out.csv data/
+CMD [ "java", "-cp", "bootstrap-executable-1.0-SNAPSHOT.jar", "org.jpmml.evaluator.bootstrap.Main", "data/spam_model.pmml", "data/spam_out.csv" ]

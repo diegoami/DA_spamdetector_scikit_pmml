@@ -53,18 +53,14 @@ public class Main {
 
 	private static final List<String> missingValues = Arrays.asList("N/A", "NA");
 
-
-	static
-	public CsvUtil.Table readTable(File file, String separator) throws IOException {
+	static public CsvUtil.Table readTable(File file, String separator) throws IOException {
 
 		try(InputStream is = new FileInputStream(file)){
 			return CsvUtil.readTable(is, separator);
 		}
 	}
 
-
-	static
-	public java.util.function.Function<String, String> createCellParser(final Collection<String> missingValues){
+	static public java.util.function.Function<String, String> createCellParser(final Collection<String> missingValues){
 		java.util.function.Function<String, String> function = new Function<String, String>(){
 
 			@Override
@@ -174,7 +170,7 @@ public class Main {
 
 
 		InputStream is = new FileInputStream(input);
-		BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+		BufferedReader reader = new BufferedReader(new InputStreamReader(is));
 		double accurate = 0;
 		double total = 0;
 		int tp = 0, tn = 0, fp = 0, fn = 0;
