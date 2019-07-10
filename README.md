@@ -37,6 +37,6 @@ YOUR_DATA_DIRECTORY is where you put the files you created from http://github.co
 
 ```
 docker build -t spam_detector_pmml . 
-docker run  -v $(pwd)/data:/data spam_detector_pmml
-# docker run  -v <YOUR_DATA_DIRECTORY>:/data spam_detector_pmml
+docker run  -v $(pwd)/data:/opt/data spam_detector_pmml
+# docker run  -v <YOUR_DATA_DIRECTORY>:/opt/data spam_detector_pmml
 ```
