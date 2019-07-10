@@ -26,7 +26,7 @@ The expected result is the following - same as in the original model created in 
 
 ```
 Accuracy : 0.9937185929648241
-Confidence Matrix: (4822, 32, 3, 715)
+Confusion Matrix: (4822, 32, 3, 715)
 ```
 
 

@@ -226,7 +226,7 @@ public class Main {
 		}
 
 		System.out.println("Accuracy : "+(accurate/total));
-		System.out.format("Confidence Matrix: (%d, %d, %d, %d)\n", tn, fn, fp, tp );
+		System.out.format("Confusion Matrix: (%d, %d, %d, %d)\n", tn, fn, fp, tp );
 
 
 	}
